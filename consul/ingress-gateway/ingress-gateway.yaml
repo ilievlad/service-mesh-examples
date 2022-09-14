@@ -1,0 +1,19 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: IngressGateway
+metadata:
+  name: ingress-gateway
+spec:
+  listeners:
+    - port: 80
+      protocol: http
+      services:
+        - name: go-api
+          hosts: <api-hostname>
+          requestHeaders:
+            add:
+              x-gateway: go-api
+          responseHeaders:
+            remove:
+              - x-debug
+            add:
+              x-gateway: go-api

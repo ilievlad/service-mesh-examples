@@ -1,0 +1,94 @@
+global:
+  name: consul
+  metrics:
+    enabled: true
+    enableAgentMetrics: true
+    enableGatewayMetrics: true
+    agentMetricsRetentionTime: "1m"
+  acls:
+    manageSystemACLs: true
+    createReplicationToken: true
+  gossipEncryption:
+    autoGenerate: true
+  tls:
+    enabled: true
+    enableAutoEncrypt: true
+    verify: true
+    httpsOnly: false
+  federation:
+    enabled: true
+    createFederationSecret: true
+
+connectInject:
+  enabled: true
+  metrics:
+    defaultEnabled: true
+    defaultEnableMerging: true
+
+ingressGateways:
+  enabled: true
+  gateways:
+    - name: ingress-gateway
+      service:
+        type: LoadBalancer
+        annotations: |
+          service.beta.kubernetes.io/aws-load-balancer-type: "external"
+          service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+          service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "21000"
+          external-dns.alpha.kubernetes.io/hostname: <api-hostname>
+        ports:
+        - port: 80
+        - port: 443
+
+prometheus:
+  enabled: true
+
+controller:
+  enabled: true
+
+ui:
+  service:
+    type: NodePort
+  ingress:
+    enabled: true
+    annotations: |
+      alb.ingress.kubernetes.io/group.name: testing-use1-a-mgmtv2
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      external-dns.alpha.kubernetes.io/hostname: <hostname>
+      alb.ingress.kubernetes.io/certificate-arn: <certificate-arn>
+      external-dns.alpha.kubernetes.io/zone-type: private
+      kubernetes.io/ingress.class: alb
+    tls:
+      - hosts:
+        - <hostname>
+    hosts:
+      - host: <hostname>
+        paths: 
+          - /
+  metrics:
+    enabled: true # by default, this inherits from the value global.metrics.enabled
+    provider: "prometheus"
+    baseURL: http://prometheus-server
+  tolerations: |
+    - key: "spot"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+
+client:
+  extraConfig: |
+    {"advertise_reconnect_timeout": "15m"}
+  tolerations: |
+    - key: "spot"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+
+server:
+  tolerations: |
+    - key: "spot"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+

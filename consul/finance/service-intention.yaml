@@ -1,0 +1,10 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: finance-server
+spec:
+  destination:
+    name: finance-server
+  sources:
+    - name: ingress-gateway
+      action: allow

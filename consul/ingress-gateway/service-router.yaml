@@ -1,0 +1,22 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: go-api
+spec:
+  routes:
+    - match:
+        http:
+          pathPrefix: /echo
+      destination:
+        service: echo-server
+    - match:
+        http:
+          pathPrefix: /finance
+      destination:
+        service: finance-server
+    - match:
+        http:
+          pathPrefix: /external
+      destination:
+        service: nginx-external
+        prefixRewrite: /

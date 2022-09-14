@@ -1,0 +1,10 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: go-api
+spec:
+  destination:
+    name: go-api
+  sources:
+    - name: ingress-gateway
+      action: allow

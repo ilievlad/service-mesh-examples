@@ -1,0 +1,18 @@
+{
+  "service": {
+    "name": "nginx-external",
+    "port": 8080,
+    "connect": { "sidecar_service": {} },
+    "token": <create token in ui and policy as service identity. Make sure name is as above>
+    "check": {
+        "id": "api",
+        "name": "HTTP API on port 8080",
+        "http": "http://localhost:8080/",
+        "tls_server_name": "",
+        "tls_skip_verify": false,
+        "method": "GET",
+        "interval": "10s",
+        "timeout": "1s"
+    }
+  }
+}

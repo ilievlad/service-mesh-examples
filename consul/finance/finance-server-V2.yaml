@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finance-server-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finance-server
+  template:
+    metadata:
+      name: finance-server
+      labels:
+        app: finance-server
+      annotations:
+        'consul.hashicorp.com/connect-inject': 'true'
+        consul.hashicorp.com/service-meta-version: v2
+    spec:
+      containers:
+        - name: finance-server
+          image: hashicorp/http-echo:latest
+          args:
+            - -text="finance service servicing v2"
+            - -listen=:8080
+          ports:
+            - containerPort: 8080
+              name: http
+      serviceAccountName: finance-server

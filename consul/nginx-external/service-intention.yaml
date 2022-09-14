@@ -1,0 +1,10 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: nginx-external
+spec:
+  destination:
+    name: nginx-external
+  sources:
+    - name: ingress-gateway
+      action: allow

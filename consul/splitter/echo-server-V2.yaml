@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-server-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echo-server
+  template:
+    metadata:
+      name: echo-server
+      labels:
+        app: echo-server
+        admission.datadoghq.com/enabled: "true"
+      annotations:
+        'consul.hashicorp.com/connect-inject': 'true'
+        consul.hashicorp.com/service-meta-version: v2
+    spec:
+      containers:
+        - name: echo-server
+          image: hashicorp/http-echo:latest
+          args:
+            - -text="hello world v2"
+            - -listen=:8080
+          ports:
+            - containerPort: 8080
+              name: http
+      serviceAccountName: echo-server

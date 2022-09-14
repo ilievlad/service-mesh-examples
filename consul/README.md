@@ -97,6 +97,7 @@ consul connect envoy -sidecar-for nginx-external -token=<get token from service 
 
 ## Gotchas
 
+* First of all, consul documentation, even tough is very thorough, it's very hard to navigate. To setup the above demo, it took about 3 days of digging into consul documentation.
 * Any pod that needs to be into the mesh has to have a service selecting it.
 * Multi port services are not supported, so services need to be split into multiple services. An annotation has to be added to the pod to specify which services are selecting it even if it only consumes mesh traffic and doesn't expose anything.
 * Cleanup of resources (when deleting a namespace, for example) has to be done in a certain order because of finalisers. ServiceDefaults have to be deleted before the services and pods, otherwise, custom resources will not be deleted (could be a bug in the custom resource definitions).

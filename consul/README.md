@@ -98,8 +98,8 @@ consul connect envoy -sidecar-for nginx-external -token=<get token from service 
 ## Gotchas
 
 * First of all, consul documentation, even tough is very thorough, it's very hard to navigate. To setup the above demo, it took about 3 days of digging into consul documentation.
-* Any pod that needs to be into the mesh has to have a service selecting it.
-* Multi port services are not supported, so services need to be split into multiple services. An annotation has to be added to the pod to specify which services are selecting it even if it only consumes mesh traffic and doesn't expose anything.
+* Any pod that needs to be into the mesh has to have a service selecting it even if it only consumes mesh traffic and doesn't expose anything.
+* Multi port services are not supported, so services need to be split into multiple services. An annotation has to be added to the pod to specify which services are selecting it.
 * Cleanup of resources (when deleting a namespace, for example) has to be done in a certain order because of finalisers. ServiceDefaults have to be deleted before the services and pods, otherwise, custom resources will not be deleted (could be a bug in the custom resource definitions).
 * Gateway ingress is exposed via a LoadBalancer service. It has a health check port that is different than the ports used for traffic so that has to be added as annotation for NLB to mark target as healthy.
 * VM agents need to use a provider to autodiscover the k8s consul cluster. One such provider is k8s but it needs kubectl, kubeconfig and aws-cli and access to k8s api (read only).

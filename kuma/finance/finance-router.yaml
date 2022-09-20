@@ -1,0 +1,25 @@
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayRoute
+mesh: default
+metadata:
+  name: finance-router
+spec:
+  conf:
+   http:
+    rules:
+    - matches:
+      - path:
+          match: PREFIX
+          value: /finance
+      backends:
+      - destination:
+          kuma.io/service: finance-server_kuma-demo_svc_80
+          version: v1
+        weight: 90
+      - destination:
+          kuma.io/service: finance-server_kuma-demo_svc_80
+          version: v2
+        weight: 10
+  selectors:
+  - match:
+      kuma.io/service: default_gateway

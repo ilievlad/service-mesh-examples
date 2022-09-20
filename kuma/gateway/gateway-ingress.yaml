@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: finance-server-gateway
+  labels:
+    name: finance-server-gateway
+  annotations:
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:541555658352:certificate/41548a15-d46e-4549-97b6-8057012f2160
+    alb.ingress.kubernetes.io/group.name: testing-use1-a-mgmtv2
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    external-dns.alpha.kubernetes.io/hostname: kuma-api.testing-use1-a.ingress.vivino.com
+    external-dns.alpha.kubernetes.io/zone-type: private
+    kubernetes.io/ingress.class: alb
+spec:
+  rules:
+  - host: kuma-api.testing.vivino.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: default-gateway-fix
+            port: 
+              number: 80
+  tls:
+    - hosts:
+      - kuma-api.testing.vivino.com

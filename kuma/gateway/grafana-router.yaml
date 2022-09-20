@@ -1,0 +1,19 @@
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayRoute
+mesh: default
+metadata:
+  name: grafana-router
+spec:
+  conf:
+   http:
+    rules:
+    - matches:
+      - path:
+          match: PREFIX
+          value: /grafana
+      backends:
+      - destination:
+          kuma.io/service: grafana_mesh-observability_svc_80
+  selectors:
+  - match:
+      kuma.io/service: default_gateway

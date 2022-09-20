@@ -1,0 +1,41 @@
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: default
+spec:
+  conf:
+    listeners:
+    - port: 80
+      protocol: HTTP
+  selectors:
+  - match:
+      kuma.io/service: default_gateway
+
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: default-gateway
+  namespace: kuma-demo
+spec:
+  replicas: 1
+  serviceType: ClusterIP
+  tags:
+    kuma.io/service: default_gateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: default-gateway-fix
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: default-gateway
+  type: NodePort
+

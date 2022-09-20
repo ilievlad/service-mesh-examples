@@ -1,0 +1,20 @@
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayRoute
+mesh: default
+metadata:
+  name: echo-router
+spec:
+  conf:
+   http:
+    rules:
+    - matches:
+      - path:
+          match: PREFIX
+          value: /echo
+      backends:
+      - destination:
+          kuma.io/service: echo-server_kuma-demo_svc_80
+        weight: 1
+  selectors:
+  - match:
+      kuma.io/service: default_gateway

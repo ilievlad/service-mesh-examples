@@ -1,0 +1,16 @@
+controlPlane:
+  service:
+    enabled: true
+    type: NodePort
+  ingress:
+    enabled: true
+    hostname: <dns>
+    annotations:
+      alb.ingress.kubernetes.io/group.name: testing-use1-a-mgmtv2
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      external-dns.alpha.kubernetes.io/hostname: <dns>
+      alb.ingress.kubernetes.io/certificate-arn: <arn>
+      external-dns.alpha.kubernetes.io/zone-type: private
+      kubernetes.io/ingress.class: alb
+    pathType: Prefix

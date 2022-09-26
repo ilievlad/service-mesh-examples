@@ -1,0 +1,8 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: Mesh
+metadata:
+  name: app-mesh-demo
+spec:
+  namespaceSelector:
+    matchLabels:
+      mesh: app-mesh-demo

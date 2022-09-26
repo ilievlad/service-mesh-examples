@@ -1,0 +1,12 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "appmesh:StreamAggregatedResources",
+            "Resource": [
+                "arn:aws:appmesh:us-east-1:541555658352:mesh/app-mesh-demo/virtualGateway/ingress-gw_app-mesh-demo"
+            ]
+        }
+    ]
+}

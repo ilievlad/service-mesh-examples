@@ -1,0 +1,13 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: GatewayRoute
+metadata:
+  name: gateway-route-finance
+spec:
+  httpRoute:
+    match:
+      prefix: "/finance"
+    action:
+      target:
+        virtualService:
+          virtualServiceRef:
+            name: finance

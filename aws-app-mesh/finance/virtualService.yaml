@@ -1,0 +1,10 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: finance
+spec:
+  awsName: finance-server.app-mesh-demo.svc.cluster.local
+  provider:
+    virtualRouter:
+      virtualRouterRef:
+        name: finance

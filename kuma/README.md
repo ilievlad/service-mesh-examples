@@ -14,9 +14,9 @@ Setup is pretty straight forward for the standalone setup. For the multi-zone se
 To test the above installation apply manifests in `echo` folder:
 
 ``` bash
-kubectl -n consul apply -f gateway/
-kubectl -n consul apply -f echo/
-kubectl -n consul apply -f finance/
+kubectl -n kuma-demo apply -f gateway/
+kubectl -n kuma-demo apply -f echo/
+kubectl -n kuma-demo apply -f finance/
 ```
 
 After deployment, Kuma UI should show echo service and it should start serving under `<api-hostname>/echo`
@@ -38,4 +38,5 @@ This means that any load that is installed on the global cluster cannot join the
 * The product is still new, but it's production ready.
 * At the time of writing, build in gateway was at first GA version.
 * It's very lightweight, consisting of only 1 deployment for a control plane. It also only injects one container (a wrapped envoy container).
-* It comes with build in observability for easy setup (it's not recommeded for production, though).
+* It comes with build in observability for easy setup; it's not recommeded for production, though. So we'll have to integrate it with our metrics and logging.
+* It has service autodiscovery, meaning no extra objects are needed to join mesh (unlike other solutions)

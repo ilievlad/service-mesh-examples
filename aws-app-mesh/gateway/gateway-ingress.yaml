@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: finance-server-gateway
+  name: ingress-gw
   labels:
-    name: finance-server-gateway
+    name: ingress-gw
   annotations:
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:<accountNo>:certificate/<certId>
-    alb.ingress.kubernetes.io/group.name: <ingress group>
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:accountNo:certificate/cert-Id
+    alb.ingress.kubernetes.io/group.name: <ingress group name>
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     external-dns.alpha.kubernetes.io/hostname: <hostname>
@@ -21,9 +21,9 @@ spec:
         path: "/"
         backend:
           service:
-            name: default-gateway-fix
+            name: ingress-gw
             port: 
               number: 80
   tls:
     - hosts:
-      -  <hostname>
+      - <hostname>
